@@ -37,8 +37,8 @@ resource "azurerm_public_ip" "AZBENIP" {
   public_ip_address_allocation = "dynamic"
 }
 
-resource "azurerm_network_interface" "AZBENNI-11" {
-  name                = "AZBENNI-11"
+resource "azurerm_network_interface" "AZBENNI11" {
+  name                = "AZBENNI11"
   location            = "UK West"
   resource_group_name = "${azurerm_resource_group.AZBENGROUPVN.name}"
 
@@ -64,4 +64,26 @@ resource "azurerm_storage_container" "AZBENCONT" {
   resource_group_name   = "${azurerm_resource_group.AZBENGROUP.name}"
   storage_account_name  = "${azurerm_storage_account.AZBENSTORE.name}"
   container_access_type = "private"
+}
+
+resource "azurerm_virtual_machine" "AZBENVM1" {
+  name                 = "AZBENVM1"
+  location             = "UK West"
+  resource_group_name  = "${azurerm_resource_group.AZBENGROUP.name}"
+  network_interface_ids = ["${azurerm_network_interface.AZBENNI11.id}"]
+  vm_size               = "Standard_DS2_v2"
+
+  storage_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter"
+    version   = "latest"
+  }
+
+  storage_os_disk {
+    name              = "${azurerm_resource_group.AZBENGROUP.name}-OSdisk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
 }
