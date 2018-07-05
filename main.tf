@@ -50,3 +50,11 @@ resource "azurerm_network_interface" "AZBENNI-11" {
     public_ip_address_id          = "${azurerm_public_ip.AZBENIP.id}"
   }
 }
+
+resource "azurerm_storage_account" "AZBENSTORE" {
+  name                     = "azbenstore"
+  resource_group_name      = "${azurerm_resource_group.AZBENGROUP.name}"
+  location                 = "UK West"
+  account_tier             = "standard"
+  account_replication_type = "GRS"
+}
