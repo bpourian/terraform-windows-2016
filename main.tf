@@ -58,3 +58,10 @@ resource "azurerm_storage_account" "AZBENSTORE" {
   account_tier             = "standard"
   account_replication_type = "GRS"
 }
+
+resource "azurerm_storage_container" "AZBENCONT" {
+  name = "azbencont"
+  resource_group_name   = "${azurerm_resource_group.AZBENGROUP.name}"
+  storage_account_name  = "${azurerm_storage_account.AZBENSTORE.name}"
+  container_access_type = "private"
+}
