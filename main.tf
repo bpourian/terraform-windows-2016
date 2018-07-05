@@ -86,4 +86,10 @@ resource "azurerm_virtual_machine" "AZBENVM1" {
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
+
+  os_profile {
+    computer_name  = "${var.computer_name}"
+    admin_username = "${var.admin_username}"
+    admin_password = "${var.admin_password}"
+  }
 }
